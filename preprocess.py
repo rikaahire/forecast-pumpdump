@@ -21,11 +21,9 @@ def clean_text(text):
     # Remove mentions
     text = re.sub(r'@\w+', '', text)
 
-    # Remove emojis and non-text
-    text = text.encode('ascii', 'ignore').decode('ascii')
-
-    # Remove punctuation and numbers
-    text = re.sub(r'[^a-z\s]', '', text)
+    # Remove non-text (except emojis)
+    text = re.sub(r'\d+', '', text)
+    text = re.sub(r'[^\w\s☺-\U0001f645]', '', text)
 
     # Tokenize and remove stop words
     tokens = word_tokenize(text)
