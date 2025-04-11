@@ -12,6 +12,9 @@ stop_words = set(stopwords.words('english'))
 
 # Clean text
 def clean_text(text):
+    # Lowercase
+    text = text.lower()
+    
     # Remove URLs
     text = re.sub(r'http\S+|www\.\S+', '', text)
 
