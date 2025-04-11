@@ -1,6 +1,6 @@
 import requests
 import pandas as pd
-from datetime import datetime, timedelta
+from datetime import datetime
 
 # Get OHLCV data
 def get_ohlcv_data(symbol, currency, start_date, end_date, api_key):
@@ -49,5 +49,5 @@ end_date = '2023-06-30'
 # Get price data
 for symbol in symbols:
     df = get_ohlcv_data(symbol, currency, start_date, end_date, api_key)
-    df.to_csv(f'{symbol}_OHLCV_{start_date}_to_{end_date}.csv', index=False)
-    print(f'Data for {symbol} saved to {symbol}_OHLCV_{start_date}_to_{end_date}.csv')
+    df.to_csv(f'{symbol}_price_data.csv', index=False)
+    print('Done')
