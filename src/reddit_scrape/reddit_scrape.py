@@ -21,8 +21,8 @@ while current_date <= end_date:
     before_ts = int(datetime.datetime.combine(current_date, datetime.time.max).timestamp())
 
     params = {
-        "q": "pepe",
-        "subreddit": "SatoshiStreetBets",
+        "q": "shiba",
+        "subreddit": "Altcoin",
         "after": after_ts,
         "before": before_ts,
         "size": 100,
@@ -46,7 +46,7 @@ while current_date <= end_date:
                 "num_comments": post.get("num_comments"),
                 "created_utc": datetime.datetime.utcfromtimestamp(post.get("created_utc")),
                 "url": post.get("full_link"),
-                "subreddit": "SatoshiStreetBets",
+                "subreddit": "Altcoin",
                 "flair": post.get("link_flair_text"),  # 👈 add this line
                 "comments": []
             }
@@ -80,7 +80,7 @@ while current_date <= end_date:
 df = pd.DataFrame(all_posts)
 
 # Save to CSV
-df.to_csv("pepe_SatoshiStreetBets.csv", index=False)
+df.to_csv("shiba_Altcoin.csv", index=False)
 
 print(f"\n✅ Done. Total posts: {len(df)}")
 print(df.head())

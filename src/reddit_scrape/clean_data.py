@@ -92,6 +92,6 @@ def clean_dogecoin_data(input_file: str, output_file: str):
 # RUN CLEANING
 # =========================
 if __name__ == "__main__":
-    input_csv = "pepe_final.csv"  # Replace with your actual input file path
-    output_csv = "pepe_full_cleaned_final.csv"
+    input_csv = "shiba_posts.csv"  # Replace with your actual input file path
+    output_csv = "shiba_full_cleaned_final.csv"
     clean_dogecoin_data(input_csv, output_csv)
