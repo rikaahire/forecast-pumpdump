@@ -23,7 +23,7 @@ def clean_text(text):
     text = text.lower().strip()
 
     # URLs
-    text = re.sub(r'^https?:\/\/.*[\r\n]*', '', text, flags=re.MULTILINE)
+    text = re.sub(r'\bhttp\S*', '', text)
 
     # Mentions
     text = re.sub(r"@\w+", '', text)
