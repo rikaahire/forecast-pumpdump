@@ -16,7 +16,7 @@ def clean_text(text):
     text = text.lower()
     
     # Remove URLs
-    text = re.sub(r'http\S+|www\.\S+', '', text)
+    text = re.sub(r'^https?:\/\/.*[\r\n]*', '', text)
 
     # Remove mentions
     text = re.sub(r'@\w+', '', text)
