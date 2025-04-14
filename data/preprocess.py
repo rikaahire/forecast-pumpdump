@@ -17,7 +17,7 @@ def clean_text(text):
     text = str(text)
 
     # Emojis
-    text = emoji.replace_emoji(text, replace='')
+    # text = emoji.replace_emoji(text, replace='')
 
     # Lowercase
     text = text.lower().strip()
@@ -29,13 +29,17 @@ def clean_text(text):
     text = re.sub(r"@\w+", '', text)
 
     # Non-text
+    emojis = ''.join(char for char in text if emoji.is_emoji(char))
     text = re.sub(r"[^a-zA-Z\s]", '', text)
 
     # Stop words
     tokens = word_tokenize(text)
     filtered = [word for word in tokens if word.lower() not in stop_words]
 
-    return ' '.join(filtered)
+    filtered = ' '.join(filtered) + ' ' + emojis
+
+    # return ' '.join(filtered)
+    return filtered.strip()
 
 def clean_comments(comments_raw):
     try:
@@ -50,7 +54,7 @@ def clean_comments(comments_raw):
 
 def main():
     input_file = 'dogecoin/dogecoin_full_cleaned_final.csv'
-    output_file = 'dogecoin_cleaned_output.csv'
+    output_file = 'dogecoin.csv'
 
     df = pd.read_csv(input_file)
 
