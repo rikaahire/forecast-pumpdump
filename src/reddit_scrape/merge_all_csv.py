@@ -14,9 +14,9 @@ def merge_multiple_csvs_with_subreddits(file_subreddit_pairs, output_file):
 
 # Example usage
 file_subreddit_pairs = [
-    ("pepe_CryptoCurrency.csv", "CryptoCurrency"),
-    ("pepe_dogecoin.csv", "dogecoin"),
-    ("pepe_SatoshiStreetBets.csv", "SatoshiStreetBets")
+    ("data/reddit_posts/raw_post/shib/shiba_CryptoCurrency.csv", "CryptoCurrency"),
+    ("data/reddit_posts/raw_post/shib/shiba_dogecoin.csv", "dogecoin"),
+    ("data/reddit_posts/raw_post/shib/shiba_SatoshiStreetBets.csv", "SatoshiStreetBets")
 ]
 
-merge_multiple_csvs_with_subreddits(file_subreddit_pairs, "pepe_final.csv")
+merge_multiple_csvs_with_subreddits(file_subreddit_pairs, "shiba_final.csv")
