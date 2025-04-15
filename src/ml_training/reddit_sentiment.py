@@ -4,9 +4,11 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from transformers import BertTokenizer, BertForSequenceClassification
 import torch
 from tqdm import tqdm
+import ast
+from collections import Counter
 
 # Step 1: Load dataset
-df = pd.read_csv('data/dogecoin/dogecoin_full_cleaned_final.csv')
+df = pd.read_csv('data/reddit_posts/preprocessed_post/shiba_wo_emoji.csv')
 df = df[df['full_text'].notna() & (df['full_text'].str.strip() != '')].copy()
 
 # Step 2: VADER setup
@@ -58,9 +60,10 @@ def get_mean_from_proba(proba_list):
         mean = stacks.mean(dim=0)
     return mean
 
-# Step 4: Apply FinBERT with sliding window
+# Step 4: Apply FinBERT with sliding window to post content
 print("Running FinBERT sliding window sentiment analysis...")
 predictions = []
+
 for text in tqdm(df['full_text']):
     tokens = tokenizer.encode_plus(text, add_special_tokens=False)
     input_ids = tokens['input_ids']
@@ -75,6 +78,63 @@ for text in tqdm(df['full_text']):
 
 df['finbert_sliding_sentiment'] = predictions
 
-# Step 5: Save results
-df.to_csv('finbert_vader_sentiment_results.csv', index=False)
-print("✅ Analysis complete. Raw VADER and FinBERT sentiment saved to 'finbert_vader_sentiment_results.csv'")
+# Step 5: Add average VADER and FinBERT sentiment for comments
+def analyze_comments(comment_str, index=None):
+    if index is not None and index % 100 == 0:
+        print(f"[{index}] ✅ Finished comment sentiment analysis for post {index}")
+
+    if pd.isna(comment_str) or comment_str.strip() == "":
+        return 0.0, "neutral"
+
+    try:
+        comments = ast.literal_eval(comment_str)
+        if not isinstance(comments, list):
+            comments = [str(comments)]
+    except:
+        comments = [comment_str]
+
+    # Filter and sort top 10 by vote count
+    valid_comments = [c for c in comments if isinstance(c, tuple) and len(c) == 2 and isinstance(c[1], (int, float))]
+    top_comments = sorted(valid_comments, key=lambda x: x[1], reverse=True)[:10]
+
+    vader_scores = []
+    finbert_labels = []
+
+    for i, (comment_text, vote) in enumerate(top_comments):
+        # VADER
+        vader_score = vader.polarity_scores(str(comment_text))['compound']
+        vader_scores.append(vader_score)
+
+        # FinBERT
+        tokens = tokenizer.encode_plus(comment_text, add_special_tokens=False)
+        input_ids = tokens['input_ids']
+        attention_mask = tokens['attention_mask']
+        total_len = len(input_ids)
+
+        if total_len == 0:
+            continue
+
+        proba_list = chunk_text_to_window_size_and_predict_proba(input_ids, attention_mask, total_len)
+        mean = get_mean_from_proba(proba_list)
+        sentiment_idx = torch.argmax(mean).item()
+        sentiment_label = label_map[sentiment_idx]
+        finbert_labels.append(sentiment_label)
+
+    avg_vader = sum(vader_scores) / len(vader_scores) if vader_scores else 0.0
+
+    if finbert_labels:
+        most_common_label = Counter(finbert_labels).most_common(1)[0][0]
+    else:
+        most_common_label = "neutral"
+
+    return avg_vader, most_common_label
+
+
+print("Analyzing comments...")
+comment_results = df['comments'].apply(analyze_comments)
+df['avg_vader_comments'] = comment_results.apply(lambda x: x[0])
+df['avg_finbert_comments'] = comment_results.apply(lambda x: x[1])
+
+# Step 6: Save results
+df.to_csv('shiba_sentiment_wo_emoji.csv', index=False)
+print("✅ Analysis complete. Post + comment sentiment saved to 'finbert_vader_sentiment_results.csv'")
