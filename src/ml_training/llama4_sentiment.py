@@ -8,7 +8,7 @@ import re
 API_KEY = "fw_3ZmpdjQQRaLK4ZEYqAYSvZzY"
 
 # 📄 Input Reddit dataset
-INPUT_CSV = "data/reddit_posts/preprocessed_post/dogecoin_wo_emoji.csv"
+INPUT_CSV = "data/reddit_posts/preprocessed_post/shiba_wo_emoji.csv"
 TEXT_COLUMN = "full_text"
 
 # 🔗 Fireworks settings
@@ -23,10 +23,10 @@ df = df[df[TEXT_COLUMN].notna() & (df[TEXT_COLUMN].str.strip() != "")].copy()
 def classify_sentiment(text):
     prompt = (
         "You are a sentiment analysis model trained to mimic the behavior of FinBERT and VADER. "
-        "You are analyzing Reddit posts about Dogecoin (DOGE), which often contain slang, sarcasm, memes, or hype. "
+        "You are analyzing Reddit posts about Shiba Inu (SHIB), which often contain slang, sarcasm, memes, or hype. "
         "Classify the sentiment of the following post as a real-valued score between -1 and 1, "
         "where -1 is strongly negative, 0 is neutral, and 1 is strongly positive. "
-        "Base your decision on the tone and how the post would affect short-term Dogecoin price movements. "
+        "Base your decision on the tone and how the post would affect short-term Shiba Inu price movements. "
         "Return only the score (no label or explanation).\n\n"
         f"Post: \"{text}\""
     )
@@ -64,6 +64,6 @@ tqdm.pandas()
 df['llm_sentiment_score'] = df[TEXT_COLUMN].progress_apply(classify_sentiment)
 
 # 💾 Save results
-OUTPUT_CSV = "dogecoin_sentiment_llama4.csv"
+OUTPUT_CSV = "shiba_sentiment_llama4.csv"
 df.to_csv(OUTPUT_CSV, index=False)
 print(f"✅ Done! Saved LLM sentiment results to: {OUTPUT_CSV}")
