@@ -1,7 +1,6 @@
 # Forecasting Price Movements in Memecoin Markets through Social Media Sentiment
-Created by Sarika Ahire, Marvin Chen, and Ethan Puckett.
 
-In this work, we investigate the predictive relationship between social media sentiment and short-term price volatility in memecoin markets. By employing sentiment analysis models and supervised machine learning techniques, we seek to determine whether sentiment indicators from Reddit can serve as reliable predictors for price movements in DOGE, SHIB, and PEPE coin.
+In this work, we investigate the predictive relationship between social media sentiment and short-term price volatility in memecoin markets. By employing sentiment analysis models and supervised machine learning techniques, we seek to determine whether sentiment indicators from Reddit can serve as reliable predictors for price movements in DOGE, SHIB, and PEPE coin. Created by Sarika Ahire, Marvin Chen, and Ethan Puckett.
 
 ## Get price data
 Run `src/crypto_price/get_price_data.py` to get OHLCV (Open, High, Low, Close, Volume) price data for the memecoins. `symbols`, `currency`, `start_date`, and `end_date` can be modified. To get a CryptoCompare API key, sign up at https://www.cryptocompare.com, go to the API section in your dashboard, and generate a new API key.
