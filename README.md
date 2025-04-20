@@ -18,7 +18,7 @@ Run `src/reddit_scrape/preprocess_wo_emoji.py` to perform preprocessing on the R
 Our Reddit posts with preprocessing can be found under `data/reddit_posts/preprocessed_post`.
 
 ## Sentiment analysis
-Run `src/ml_training/sentiment_analysis/reddit_sentiment.py` to perform sentiment analysis with VADER and FinBERt. Run `src/ml_training/sentiment_analysis/llama4_sentiment.py` to perform sentiment analysis with Llama-4.
+Run `src/ml_training/sentiment_analysis/reddit_sentiment.py` to perform sentiment analysis on the Reddit posts with VADER and FinBERT. Run `src/ml_training/sentiment_analysis/llama4_sentiment.py` to perform sentiment analysis with Llama-4.
 
 Our Reddit posts with sentiment analysis can be found under `data/reddit_posts/post_sentiment`.
 
