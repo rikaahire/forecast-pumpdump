@@ -38,7 +38,7 @@ def get_ohlcv_data(symbol, currency, start_date, end_date, api_key):
     return df
 
 # CryptoCompare API key
-api_key = '150d28f4feb1c65c500263bcb260d8ebfb491a7c7f2d8c67c2851eaf6407651e'
+api_key = ''
 
 # Parameters
 symbols = ['DOGE', 'SHIB', 'PEPE']
